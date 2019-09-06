@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Disease -->
@@ -68,7 +68,7 @@
                         <field name="name" select="1"/>
                         <field name="category" select="1"/>
                         <group expand="1" string="Group By">
-                            <filter string="Categories" context="{'group_by':'category'}"/>
+                            <filter string="Categories" name="group_categories" context="{'group_by':'category'}"/>
                         </group>
                     </search>
                 </field>
@@ -82,7 +82,7 @@
                 <field name="view_id" ref="oeh_medical_pathology_tree"/>
                 <field name="search_view_id" ref="view_oeh_medical_pathology_filter"/>
                 <field name="help" type="html">
-                  <p class="oe_view_nocontent_create">
+                  <p class="o_view_nocontent_smiling_face">
                         Click to add a new disease information.
                   </p><p>
                     Here is a list of all the diseases generated through the module
@@ -140,7 +140,7 @@
                         <separator orientation="vertical"/>
                         <field name="name" select="1"/>
                         <group expand="1" string="Group By">
-                            <filter string="Parent" context="{'group_by':'parent_id'}"/>
+                            <filter string="Parent" name="group_parent" context="{'group_by':'parent_id'}"/>
                         </group>
                     </search>
                 </field>
@@ -154,7 +154,7 @@
                 <field name="view_id" ref="oeh_medical_pathology_category_tree"/>
                 <field name="search_view_id" ref="view_oeh_medical_disease_category_search"/>
                 <field name="help" type="html">
-                  <p class="oe_view_nocontent_create">
+                  <p class="o_view_nocontent_smiling_face">
                         Click to add a new disease category.
                   </p><p>
                     Here is a list of all the diseases categories generated through the module
@@ -165,4 +165,4 @@
             <menuitem action="action_oeh_medical_pathology_category_form" id="oeh_medical_conf_pathology_category" parent="oeh_medical_conf_pathology"/>
 
         </data>
-</openerp>
+</odoo>

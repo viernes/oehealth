@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Operating Theaters -->
@@ -16,8 +16,8 @@
                             <field name="state" widget="statusbar" statusbar_visible="Free,Reserved,Occupied,Not Available" statusbar_colors='{"Occupied":"red","Free":"blue","Reserved":"purple","Not Available":"grey"}'/>
                         </header>
                         <sheet>
-                            <div class="oe_left" style="width: 500px;">
-                                <div class="oe_title" style="width: 390px;">
+                            <div>
+                                <div class="oe_title">
                                     <label class="oe_edit_only" for="name" string="OT Name"/>
                                     <h1><field name="name" class="oe_inline"/></h1>
                                 </div>
@@ -38,7 +38,7 @@
                 <field name="model">oeh.medical.health.center.ot</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Operating Theaters' colors="grey:state=='Occupied';blue:state=='Reserved';green:state=='Free';red:state=='Not Available'">
+                    <tree string='Operating Theaters' decoration-muted="state=='Occupied'" decoration-info="state=='Reserved'" decoration-success="state=='Free'" decoration-danger="state=='Not Available'">
                         <field name="name"/>
                         <field name="building"/>
                         <field name="state"/>
@@ -56,8 +56,8 @@
                         <field name="info"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Building" domain="[]" context="{'group_by':'building'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter name="group_building" string="Building" domain="[]" context="{'group_by':'building'}" />
+                            <filter name="group_state" string="State" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -72,7 +72,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new health center operation theater.
                       </p><p>
                         With oeHealth OT screen, you can configure your operating rooms to use during the surgeries
@@ -98,4 +98,4 @@
             </record>
 
     </data>
-</openerp>
+</odoo>

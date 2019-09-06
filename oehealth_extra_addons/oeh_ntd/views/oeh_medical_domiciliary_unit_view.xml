@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- Domiciliary Unit Management -->
@@ -15,11 +15,11 @@
                             <field name="desc" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Health Center" context="{'group_by':'institution'}"/>
-                            <filter string="Dwelling" context="{'group_by':'dwelling'}"/>
-                            <filter string="Material" context="{'group_by':'materials'}"/>
-                            <filter string="Roof" context="{'group_by':'roof_type'}"/>
-                            <filter string="Conditions" context="{'group_by':'housing'}"/>
+                            <filter name="group_health_center" string="Health Center" context="{'group_by':'institution'}"/>
+                            <filter name="group_dwelling" string="Dwelling" context="{'group_by':'dwelling'}"/>
+                            <filter name="group_material" string="Material" context="{'group_by':'materials'}"/>
+                            <filter name="group_roof" string="Roof" context="{'group_by':'roof_type'}"/>
+                            <filter name="group_conditions" string="Conditions" context="{'group_by':'housing'}"/>
                         </group>
                     </search>
                 </field>
@@ -32,14 +32,13 @@
                 <field name="arch" type="xml">
                 <form string="Domiciliary Units">
                     <sheet>
-                        <div class="oe_left" style="width: 300px;">
+                        <div class="oe_left">
                             <field name="picture" widget='image' class="oe_left oe_avatar" options='{"preview_image": "picture", "size": [90, 90]}'/>
                             <div class="oe_title">
-                               <label string="Name" class="oe_edit_only"/>
+                               <label for="name" string="Name" class="oe_edit_only"/>
                                 <h1>
                                     <field name="name" required="1"/>
                                 </h1>
-
                             </div>
                         </div>
                         <group>
@@ -56,10 +55,10 @@
                                 <div>
                                     <field name="address_street" placeholder="Street..."/>
                                     <field name="address_district"/>
-                                    <div class="address_format">
-                                        <field name="address_city" placeholder="City" style="width: 40%%"/>
-                                        <field name="address_state" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(address_state)"/>
-                                        <field name="address_zip" placeholder="ZIP" style="width: 20%%"/>
+                                    <div class="o_address_format">
+                                        <field name="address_city" placeholder="City" class="o_address_city"/>
+                                        <field name="address_state" class="oe_no_button o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                        <field name="address_zip" placeholder="ZIP" class="o_address_zip"/>
                                     </div>
                                     <field name="address_country" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
                                 </div>
@@ -110,7 +109,7 @@
                 <field name="name">Domiciliary Units Kanban</field>
                 <field name="model">oeh.medical.domiciliary.unit</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
                         <field name="id"/>
                         <field name="name"/>
                         <field name="institution"/>
@@ -121,7 +120,7 @@
                             <t t-name="kanban-box">
                                 <div class="oeh_medical_vignette oe_semantic_html_override">
                                     <div class="oeh_medical_image">
-                                        <a type="open"><img t-att-src="kanban_image('oeh.medical.domiciliary.unit', 'picture', record.id.raw_value)" class="oeh_medical_picture"/></a>
+                                        <a type="open"><img alt="" t-att-src="kanban_image('oeh.medical.domiciliary.unit', 'picture', record.id.raw_value)" class="oeh_medical_picture"/></a>
                                     </div>
                                     <div class="oeh_medical_details">
                                         <h4>
@@ -138,7 +137,6 @@
                             </t>
                         </templates>
                     </kanban>
-
                 </field>
             </record>
 
@@ -148,7 +146,7 @@
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
                         <tree string='Domiciliary Units Information'>
-                            <field name="name"></field>
+                            <field name="name"/>
                             <field name="desc"/>
                             <field name="address_city"/>
                             <field name="address_state"/>
@@ -167,7 +165,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new domiciliary unit.
                       </p>
                     </field>
@@ -177,4 +175,4 @@
 
 
         </data>
-    </openerp>
+    </odoo>

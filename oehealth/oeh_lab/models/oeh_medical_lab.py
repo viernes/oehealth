@@ -35,6 +35,7 @@
 from odoo import api, fields, models, _
 import time
 import datetime
+from odoo.exceptions import UserError
 
 
 # Lab Units Management
@@ -170,6 +171,12 @@ class OeHealthLabTests(models.Model):
         return self.write({'state': 'Completed'})
 
     @api.multi
+    def unlink(self):
+        for labtest in self.filtered(lambda labtest: labtest.state not in ['Draft']):
+            raise UserError(_('You can not delete a lab test which is not in "Draft" state !!'))
+        return super(OeHealthLabTests, self).unlink()
+
+    @api.multi
     def _default_account(self):
         journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
         return journal.default_credit_account_id.id
@@ -186,9 +193,9 @@ class OeHealthLabTests(models.Model):
                     'account_id': lab.patient.partner_id.property_account_receivable_id.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice':datetime.datetime.now(),
+                    'date_invoice':datetime.date.today(),
                     'origin': "Lab Test# : " + lab.name,
-                    'target': 'new',
+                    'sequence_number_next_prefix': False
                 }
 
                 inv_ids = invoice_obj.create(curr_invoice)

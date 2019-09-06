@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Appointment -->
@@ -30,11 +30,11 @@
                             <field name="institution" string="Health Center" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Doctor" context="{'group_by':'doctor'}"/>
-                            <filter string="Health Center" context="{'group_by':'institution'}"/>
-                            <filter string="Urgency" context="{'group_by':'urgency_level'}"/>
-                            <filter string="Status" context="{'group_by':'patient_status'}"/>
+                            <filter string="Patient" name="group_patient" context="{'group_by':'patient'}"/>
+                            <filter string="Doctor" name="group_doctor" context="{'group_by':'doctor'}"/>
+                            <filter string="Health Center" name="group_health_center" context="{'group_by':'institution'}"/>
+                            <filter string="Urgency" name="group_urgency" context="{'group_by':'urgency_level'}"/>
+                            <filter string="Status" name="group_state" context="{'group_by':'patient_status'}"/>
                         </group>
                     </search>
                 </field>
@@ -97,14 +97,14 @@
                 <field name="model">oeh.medical.appointment</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string="Appointment Details" colors="grey:state=='Invoiced';blue:state=='Scheduled';green:state=='Completed'">
-                            <field name="name"></field>
+                        <tree string="Appointment Details" decoration-muted="state=='Invoiced'" decoration-info="state=='Scheduled'" decoration-success="state=='Completed'">
+                            <field name="name"/>
                             <field name="patient"/>
-                            <field name="doctor"></field>
-                            <field name="appointment_date"></field>
-                            <field name="institution"></field>
-                            <field name="patient_status"></field>
-                            <field name="urgency_level"></field>
+                            <field name="doctor"/>
+                            <field name="appointment_date"/>
+                            <field name="institution"/>
+                            <field name="patient_status"/>
+                            <field name="urgency_level"/>
                             <field name="state"/>
                         </tree>
                     </field>
@@ -120,7 +120,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new appointment.
                       </p><p>
                         oeHealth appointment screen can easily find all of your appointment details;
@@ -143,12 +143,13 @@
                         <header>
                             <button confirm="Are you sure you want to create the invoice?" name="action_prescription_invoice_create" states="Draft" string="Consultancy Invoice" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager"/>
                             <button confirm="Are you sure you want to send prescription to selected pharmacy?" name="action_prescription_send_to_pharmacy" states="Draft" string="Send to Pharmacy" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager"/>
+                            <button name="print_patient_prescription" string="Print Prescription" type="object" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager"/>
                             <field name="state" widget="statusbar" statusbar_visible="Draft,Invoiced,Sent to Pharmacy" statusbar_colors='{"Draft":"blue","Invoiced":"grey"}'/>
                         </header>
                         <sheet>
                             <div class="oe_left" style="width: 500px;">
                                 <div class="oe_title">
-                                    <label string="Prescription #" class="oe_edit_only"/>
+                                    <label for="name" string="Prescription #" class="oe_edit_only"/>
                                     <h1>
                                         <field name="name"/>
                                     </h1>
@@ -253,7 +254,7 @@
                 <field name="model">oeh.medical.prescription</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Prescriptions' colors="grey:state=='Invoiced';blue:state=='Draft';green:state=='Sent to Pharmacy'">
+                    <tree string='Prescriptions' decoration-muted="state=='Invoiced'" decoration-info="state=='Draft'" decoration-success="state=='Sent to Pharmacy'">
                         <field name="name"/>
                         <field name="patient"/>
                         <field name="date"/>
@@ -276,10 +277,10 @@
                         <field name="pharmacy" />
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Patient" domain="[]" context="{'group_by':'patient'}" />
-                            <filter string="Physicians" domain="[]" context="{'group_by':'doctor'}" />
-                            <filter string="Pharmacy" domain="[]"	context="{'group_by':'pharmacy'}" />
-                            <filter string="Status" domain="[]"	context="{'group_by':'state'}" />
+                            <filter string="Patient" name="group_patient" domain="[]" context="{'group_by':'patient'}" />
+                            <filter string="Physicians" name="group_physicians" domain="[]" context="{'group_by':'doctor'}" />
+                            <filter string="Pharmacy" name="group_pharmacy" domain="[]"	context="{'group_by':'pharmacy'}" />
+                            <filter string="Status" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -294,7 +295,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new prescription.
                       </p><p>
                         With oeHealth prescription screen, you can add prescriptions, assign to the patient and directly send to pharmacies for assignment of medicines
@@ -317,12 +318,12 @@
                         <sheet>
                             <div class="oe_left" style="width: 500px;">
                                 <div class="oe_title">
-                                    <label string="Vaccine" class="oe_edit_only"/>
+                                    <label for="name" string="Vaccine" class="oe_edit_only"/>
                                     <h1>
                                         <field name="name"/>
                                     </h1>
                                     <label for="patient" class="oe_edit_only"/>
-                                    <field name="patient" on_change="onchange_patient(patient)"/>
+                                    <field name="patient"/>
                                 </div>
                             </div>
                             <group>
@@ -373,9 +374,9 @@
                         <field name="institution" />
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Patient" domain="[]" context="{'group_by':'patient'}" />
-                            <filter string="Doctor" domain="[]"	context="{'group_by':'doctor'}" />
-                            <filter string="Institution" domain="[]" context="{'group_by':'institution'}" />
+                            <filter string="Patient" name="group_patient" domain="[]" context="{'group_by':'patient'}" />
+                            <filter string="Doctor" name="group_doctor" domain="[]"	context="{'group_by':'doctor'}" />
+                            <filter string="Institution" name="group_institution" domain="[]" context="{'group_by':'institution'}" />
                         </group>
 				    </search>
                 </field>
@@ -390,7 +391,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new vaccine.
                       </p><p>
                         With oeHealth vaccine screen, you can record all the vaccine with the date.
@@ -429,8 +430,8 @@
                             <field name="oeh_patient_user_id"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Sex" icon="terp-personal" domain="[]" context="{'group_by':'sex'}"/>
-                            <filter string="Doctor" icon="terp-personal" domain="[]" context="{'group_by':'doctor'}"/>
+                            <filter string="Sex" name="group_sex" domain="[]" context="{'group_by':'sex'}"/>
+                            <filter string="Doctor" name="group_doctor" domain="[]" context="{'group_by':'doctor'}"/>
                         </group>
                     </search>
                 </field>
@@ -466,7 +467,7 @@
                         <div>
                             <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                             <div class="oe_title">
-                               <label string="Full Name" class="oe_edit_only"/>
+                               <label for="name" string="Full Name" class="oe_edit_only"/>
                                 <h1>
                                     <field name="name" required="1"/>
                                 </h1>
@@ -477,37 +478,35 @@
                             <group>
                                 <field name="age"/>
                                 <field name="blood_type"/>
-                                <field name="sex" required="1"/>
+                                <field name="rh"/>
                             </group>
                             <group>
                                 <field name="dob" required="1"/>
                                 <field name="marital_status" required="1"/>
-                                <field name="rh"/>
+                                <field name="sex" required="1"/>
                                 <field name="doctor" options="{'no_create': True}"/>
                             </group>
                         </group>
                         <group>
-                            <p class="oe_grey">
+                            <p class="oe_grey" groups="oehealth.group_oeh_medical_manager">
                                 This field will allow to connect oeHealth patient with your preferred Odoo native user. Please note that the user you choose here must not related to any other patient.
                             </p>
                         </group>
                         <group>
-                            <field name="oeh_patient_user_id" options="{'no_create': True}"/>
+                            <field name="oeh_patient_user_id" options="{'no_create': True}" groups="oehealth.group_oeh_medical_manager"/>
                         </group>
                         <notebook>
                                 <page string="Personal">
                                     <group>
                                         <group>
                                             <label for="street" string="Address"/>
-                                            <div>
-                                                <field name="street" placeholder="Street..."/>
-                                                <field name="street2"/>
-                                                <div class="address_format">
-                                                    <field name="city" placeholder="City" style="width: 40%%"/>
-                                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
-                                                    <field name="zip" placeholder="ZIP" style="width: 20%%"/>
-                                                </div>
-                                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+                                            <div class="o_address_format">
+                                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                <field name="city" placeholder="City" class="o_address_city"/>
+                                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                                             </div>
                                             <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
                                         </group>
@@ -642,7 +641,7 @@
                 <field name="name">Patient Kanban</field>
                 <field name="model">oeh.medical.patient</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
                         <field name="id"/>
                         <field name="name"/>
                         <field name="identification_code"/>
@@ -655,7 +654,7 @@
                             <t t-name="kanban-box">
                                 <div class="oeh_medical_vignette">
                                     <div class="oeh_medical_image">
-                                        <a type="open"><img t-att-src="kanban_image('oeh.medical.patient', 'image_medium', record.id.raw_value)" class="oeh_medical_picture"/></a>
+                                        <a type="open"><img alt="" t-att-src="kanban_image('oeh.medical.patient', 'image_medium', record.id.raw_value)" class="oeh_medical_picture"/></a>
                                     </div>
                                     <div class="oeh_medical_details">
                                         <h4>
@@ -673,7 +672,6 @@
                             </t>
                         </templates>
                     </kanban>
-
                 </field>
             </record>
 
@@ -682,14 +680,14 @@
                 <field name="model">oeh.medical.patient</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string='Patient Information'>
-                            <field name="name"></field>
+                        <tree string='Patient Information' decoration-muted="deceased==True">
+                            <field name="name"/>
                             <field name="identification_code"/>
-                            <field name="sex"></field>
-                            <field name="dob"></field>
-                            <field name="age"></field>
-                            <field name="doctor"></field>
-                            <field name="deceased"></field>
+                            <field name="sex"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="doctor"/>
+                            <field name="deceased"/>
                         </tree>
                     </field>
             </record>
@@ -704,7 +702,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new patient.
                       </p><p>
                         With oeHealth patient screen, you can easily find all the information you need for each patients;
@@ -737,7 +735,7 @@
                 <field name="arch" type="xml">
                     <form string="Physician">
                         <sheet>
-                            <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
+                            <div class="oe_right oe_button_box" name="buttons">
                                 <button type="action" class="oe_stat_button" name="%(oeh_medical_appointment_action_tree)d" context="{'search_default_doctor': active_id,'default_doctor': active_id}" icon="fa-calendar">
                                     <field string="Appointments" name="app_count" widget="statinfo"/>
                                 </button>
@@ -745,10 +743,10 @@
                                     <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
                                 </button>
                             </div>
-                            <div class="oe_left" style="width: 500px;">
+                            <div class="oe_left">
                                 <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                                 <div class="oe_title">
-                                    <label string="Physician Name" class="oe_edit_only"/>
+                                    <label for="name" string="Physician Name" class="oe_edit_only"/>
                                     <h1>
                                         <field name="name" required="1"/>
                                     </h1>
@@ -768,12 +766,12 @@
                                 </group>
                             </group>
                             <group>
-                            <p class="oe_grey">
+                            <p class="oe_grey" groups="oehealth.group_oeh_medical_manager">
                                 This field will allow to connect oeHealth physician with your preferred Odoo native user. Please note that the user you choose here must not related to any other physician.
                             </p>
                             </group>
                             <group>
-                                <field name="oeh_user_id" options="{'no_create': True}"/>
+                                <field name="oeh_user_id" options="{'no_create': True}" groups="oehealth.group_oeh_medical_manager"/>
                             </group>
                             <notebook>
                                 <page string="General">
@@ -839,19 +837,18 @@
                         <field name="speciality" />
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="License ID" domain="[]" context="{'group_by':'code'}" />
-                            <filter string="Speciality" domain="[]"	context="{'group_by':'speciality'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Speciality" name="group_speciality" domain="[]"	context="{'group_by':'speciality'}" />
                         </group>
 				    </search>
                 </field>
             </record>
 
-             <record model="ir.ui.view" id="oeh_medical_physician_kanban_view">
+            <record model="ir.ui.view" id="oeh_medical_physician_kanban_view">
                 <field name="name">Physicians Kanban</field>
                 <field name="model">oeh.medical.physician</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
                         <field name="id"/>
                         <field name="name"/>
                         <field name="degree_id"/>
@@ -863,14 +860,13 @@
                             <t t-name="kanban-box">
                                 <div class="oeh_medical_vignette oe_semantic_html_override">
                                     <div class="oeh_medical_image">
-                                        <a type="open"><img t-att-src="kanban_image('oeh.medical.physician', 'image_medium', record.id.raw_value)" class="oeh_medical_picture"/></a>
+                                        <a type="open"><img alt="" t-att-src="kanban_image('oeh.medical.physician', 'image_medium', record.id.raw_value)" class="oeh_medical_picture"/></a>
                                     </div>
                                     <div class="oeh_medical_details">
                                         <h4>
                                             <a type="open"><field name="name"/></a>
                                         </h4>
                                         <ul>
-                                            <li t-if="record.degree_id.raw_value"><field name="degree_id"/></li>
                                             <li t-if="record.speciality.raw_value"><field name="speciality"/></li>
                                             <li t-if="record.address_id.raw_value"><field name="address_id"/></li>
                                             <li t-if="record.code.raw_value"><field name="code"/></li>
@@ -881,7 +877,6 @@
                             </t>
                         </templates>
                     </kanban>
-
                 </field>
             </record>
 
@@ -894,7 +889,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new physician.
                       </p><p>
                         With oeHealth physician screen, you can add all the doctors and manage their weekly schedules
@@ -925,8 +920,8 @@
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
                     <tree string='Speciality' editable="top">
-                        <field name="name"></field>
-                        <field name="code"></field>
+                        <field name="name"/>
+                        <field name="code"/>
                     </tree>
                 </field>
             </record>
@@ -938,8 +933,8 @@
                 <field name="arch" type="xml">
                     <search string="Search Specialities">
                         <separator orientation="vertical"/>
-                        <field name="name" select="1"/>
-                        <field name="code" select="1"/>
+                        <field name="name"/>
+                        <field name="code"/>
                     </search>
                 </field>
             </record>
@@ -953,7 +948,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new physician speciality.
                       </p><p>
                         With oeHealth physician speciality screen, you can add different medical specialities which will
@@ -972,8 +967,8 @@
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
                     <tree string='Degrees' editable="top">
-                        <field name="name"></field>
-                        <field name="full_name"></field>
+                        <field name="name"/>
+                        <field name="full_name"/>
                     </tree>
                 </field>
             </record>
@@ -985,8 +980,8 @@
                 <field name="arch" type="xml">
                     <search string="Search Degrees">
                         <separator orientation="vertical"/>
-                        <field name="name" select="1"/>
-                        <field name="full_name" select="1"/>
+                        <field name="name"/>
+                        <field name="full_name"/>
                     </search>
                 </field>
             </record>
@@ -1000,7 +995,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new physician degrees.
                       </p><p>
                         With oeHealth physician degrees screen, you can add different medical degrees which will
@@ -1012,4 +1007,4 @@
             <menuitem action="oeh_medical_physician_degrees_action_tree" id="oeh_medical_physician_degrees_list" parent="oeh_medical_conf_physician" sequence="1"/>
 
         </data>
-</openerp>
+</odoo>

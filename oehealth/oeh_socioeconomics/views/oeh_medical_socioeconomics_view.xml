@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Occupation Configuration -->
@@ -37,7 +37,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new occupation.
                       </p>
                     </field>
@@ -118,4 +118,4 @@
             </record>
 
         </data>
-</openerp>
+</odoo>

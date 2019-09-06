@@ -33,6 +33,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 # Insurance Types
 
@@ -68,7 +69,7 @@ class OeHealthInsurance(models.Model):
     exp_date = fields.Date(string='Expiration date', required=True)
     ins_type = fields.Many2one('oeh.medical.insurance.type', string='Insurance Type', required=True)
     info = fields.Text(string='Extra Info')
-    state = fields.Selection(STATE, string='State', readonly=True, copy=False, help="Status of insurance", default=lambda *a: 'Draft')
+    state = fields.Selection(STATE, string='Status', readonly=True, copy=False, help="Status of insurance", default=lambda *a: 'Draft')
 
     _defaults={
             'is_insurance_company': True,
@@ -96,3 +97,10 @@ class OeHealthInsurance(models.Model):
     def make_active(self):
         self.write({'state': 'Active'})
         return True
+
+    @api.multi
+    # Preventing deletion of a insurance details which is not in draft state
+    def unlink(self):
+        for insurance in self.filtered(lambda insurance: insurance.state not in ['Draft']):
+            raise UserError(_('You can not delete active or expired insurance information from the system !!'))
+        return super(OeHealthInsurance, self).unlink()

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Inheriting Physician screen to add Walkin Schedule -->
@@ -113,12 +113,12 @@
                             <field name="doctor" string="Physician" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Doctor" context="{'group_by':'doctor'}"/>
-                            <filter string="Sex" context="{'group_by':'sex'}"/>
-                            <filter string="Blood Type" context="{'group_by':'blood_type'}"/>
-                            <filter string="Marital Status" context="{'group_by':'marital_status'}"/>
-                            <filter string="Walkin Date" context="{'group_by':'date'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_doctor" string="Doctor" context="{'group_by':'doctor'}"/>
+                            <filter name="group_sex" string="Sex" context="{'group_by':'sex'}"/>
+                            <filter name="group_blood_type" string="Blood Type" context="{'group_by':'blood_type'}"/>
+                            <filter name="group_marital_status" string="Marital Status" context="{'group_by':'marital_status'}"/>
+                            <filter name="group_date" string="Walkin Date" context="{'group_by':'date'}"/>
                         </group>
                     </search>
                 </field>
@@ -137,13 +137,11 @@
                         <field name="state" widget="statusbar" statusbar_visible="Scheduled,Completed,Invoiced" statusbar_colors='{"Scheduled":"blue","Completed":"green","Invoiced":"grey"}'/>
                     </header>
                     <sheet>
-                        <div class="oe_left" style="width: 500px;">
-                            <div class="oe_title" style="width: 390px;">
-                                <label class="oe_edit_only" for="name" string="Walkin #"/>
-                                <h1><field name="name" class="oe_inline"/></h1>
-                                <label for="patient" class="oe_edit_only"/>
-                                <field name="patient" on_change="onchange_patient(patient)"/>
-                            </div>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Walkin #"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                            <label for="patient" class="oe_edit_only"/>
+                            <field name="patient"/>
                         </div>
                         <group>
                             <group>
@@ -157,11 +155,11 @@
                             <group>
                                 <field name="dob"/>
                                 <field name="marital_status"/>
-                                 <field name="rh"/>
                             </group>
                             <group>
                                 <field name="sex"/>
                                 <field name="blood_type"/>
+                                <field name="rh"/>
                             </group>
                         </group>
                         <notebook>
@@ -176,13 +174,11 @@
                                 <field name="evaluation_ids" context="{'default_walkin': active_id}" domain="[('walkin', '=', active_id)]">
                                     <form string="Evaluation">
                                         <sheet>
-                                            <div class="oe_left" style="width: 500px;">
-                                                <div class="oe_title" style="width: 390px;">
-                                                    <label class="oe_edit_only" for="name" string="Evaluation #"/>
-                                                    <h1><field name="name" class="oe_inline"/></h1>
-                                                    <label for="patient" class="oe_edit_only"/>
-                                                    <field name="patient" domain="[('id', '=', parent.patient)]"/>
-                                                </div>
+                                            <div class="oe_title">
+                                                <label class="oe_edit_only" for="name" string="Evaluation #"/>
+                                                <h1><field name="name" class="oe_inline"/></h1>
+                                                <label for="patient" class="oe_edit_only"/>
+                                                <field name="patient" domain="[('id', '=', parent.patient)]"/>
                                             </div>
                                             <group>
                                                 <group>
@@ -216,12 +212,12 @@
 
                                                     <group string="Anthropometry">
                                                         <group>
-                                                            <field name="weight" on_change="onchange_height_weight(height,weight)"/>
+                                                            <field name="weight"/>
                                                             <field name="abdominal_circ"/>
                                                             <field name="bmi"/>
                                                         </group>
                                                         <group>
-                                                            <field name="height" on_change="onchange_height_weight(height,weight)"/>
+                                                            <field name="height"/>
                                                             <field name="head_circumference"/>
                                                         </group>
                                                     </group>
@@ -385,11 +381,11 @@
                                                     <group string="Glasgow Coma Scale">
                                                         <group>
                                                             <field name="loc"/>
-                                                            <field name="loc_verbal" on_change="onchange_loc(loc_motor,loc_eyes,loc_verbal)"/>
+                                                            <field name="loc_verbal"/>
                                                         </group>
                                                         <group>
-                                                            <field name="loc_eyes" on_change="onchange_loc(loc_motor,loc_eyes,loc_verbal)"/>
-                                                            <field name="loc_motor" on_change="onchange_loc(loc_motor,loc_eyes,loc_verbal)"/>
+                                                            <field name="loc_eyes"/>
+                                                            <field name="loc_motor"/>
                                                         </group>
                                                     </group>
                                                     <group string="Mental Assessment and Impairments">
@@ -427,7 +423,7 @@
                                             </notebook>
                                         </sheet>
                                     </form>
-                                    <tree colors="red:bmi&lt;=18 or bmi&gt;=25" string='Evaluations'>
+                                    <tree decoration-danger="bmi&lt;=18 or bmi&gt;=25" string='Evaluations'>
                                         <field name="name"/>
                                         <field name="patient"/>
                                         <field name="doctor"/>
@@ -448,13 +444,11 @@
                                             <field name="state" widget="statusbar" statusbar_visible="Draft,Invoiced,Sent to Pharmacy" statusbar_colors='{"Draft":"blue","Invoiced":"grey"}'/>
                                         </header>
                                         <sheet>
-                                            <div class="oe_left" style="width: 500px;">
-                                                <div class="oe_title">
-                                                    <label string="Prescription #" class="oe_edit_only"/>
-                                                    <h1>
-                                                        <field name="name"/>
-                                                    </h1>
-                                                </div>
+                                            <div class="oe_title">
+                                                <label string="Prescription #" class="oe_edit_only"/>
+                                                <h1>
+                                                    <field name="name"/>
+                                                </h1>
                                             </div>
                                             <group>
                                                 <group>
@@ -548,7 +542,7 @@
                                             </notebook>
                                         </sheet>
                                     </form>
-                                    <tree string='Prescriptions' colors="grey:state=='Invoiced';blue:state=='Draft';green:state=='Sent to Pharmacy'">
+                                    <tree string='Prescriptions' decoration-muted="state=='Invoiced'" decoration-info="state=='Draft'" decoration-success="state=='Sent to Pharmacy'">
                                         <field name="name"/>
                                         <field name="patient"/>
                                         <field name="date"/>
@@ -576,11 +570,9 @@
                                             <field name="state" widget="statusbar" statusbar_visible="Draft,Hospitalized,Discharged,Invoiced" statusbar_colors='{"Hospitalized":"red","Draft":"blue","Invoiced":"grey","Discharged":"red"}'/>
                                         </header>
                                         <sheet>
-                                            <div class="oe_left" style="width: 500px;">
-                                                <div class="oe_title" style="width: 390px;">
-                                                    <label class="oe_edit_only" for="name" string="Inpatient #"/>
-                                                    <h1><field name="name" class="oe_inline"/></h1>
-                                                </div>
+                                            <div class="oe_title">
+                                                <label class="oe_edit_only" for="name" string="Inpatient #"/>
+                                                <h1><field name="name" class="oe_inline"/></h1>
                                             </div>
                                             <group>
                                                 <group>
@@ -622,7 +614,7 @@
                                             </notebook>
                                         </sheet>
                                     </form>
-                                    <tree string='Inpatient Admission' colors="grey:state=='Invoiced';blue:state=='Hospitalized';green:state=='Discharged';red:state=='Cancelled'">
+                                    <tree string='Inpatient Admission' decoration-muted="state=='Invoiced'" decoration-info="state=='Hospitalized'" decoration-success="state=='Discharged'" decoration-danger="state=='Cancelled'">
                                         <field name="name"/>
                                         <field name="patient"/>
                                         <field name="admission_type"/>
@@ -646,18 +638,16 @@
                                             <field name="state" widget="statusbar" statusbar_visible="Draft,Test In Progress,Completed,Invoiced" statusbar_colors='{"Completed":"blue","Test In Progress":"red","Invoiced":"grey"}'/>
                                         </header>
                                         <sheet>
-                                            <div class="oe_left" style="width: 500px;">
-                                                <div class="oe_title" style="width: 390px;">
-                                                    <label class="oe_edit_only" for="name"/>
-                                                    <h1><field name="name" class="oe_inline"/></h1>
-                                                </div>
+                                            <div class="oe_title">
+                                                <label class="oe_edit_only" for="name"/>
+                                                <h1><field name="name" class="oe_inline"/></h1>
                                             </div>
                                             <group>
                                                 <group>
                                                     <field name="lab_department" required="1"/>
                                                 </group>
                                                 <group>
-                                                    <field name="test_type" on_change="onchange_test_type_id(test_type)"/>
+                                                    <field name="test_type"/>
                                                 </group>
                                             </group>
                                             <group>
@@ -697,7 +687,7 @@
                                             </notebook>
                                         </sheet>
                                     </form>
-                                    <tree string='Lab Tests' colors="grey:state=='Invoiced';blue:state=='Test In Progress';green:state=='Completed';red:state=='Cancelled'">
+                                    <tree string='Lab Tests' decoration-muted="state=='Invoiced'" decoration-info="state=='Test In Progress'" decoration-success="state=='Completed'" decoration-danger="state=='Cancelled'">
                                         <field name="name"/>
                                         <field name="test_type"/>
                                         <field name="patient"/>
@@ -714,15 +704,13 @@
                                 <field name="vaccine_ids" context="{'default_walkin': active_id}" domain="[('walkin', '=', active_id)]">
                                     <form string="Vaccines">
                                         <sheet>
-                                            <div class="oe_left" style="width: 500px;">
-                                                <div class="oe_title">
-                                                    <label string="Vaccine" class="oe_edit_only"/>
-                                                    <h1>
-                                                        <field name="name"/>
-                                                    </h1>
-                                                    <label for="patient" class="oe_edit_only"/>
-                                                    <field name="patient" domain="[('id', '=', parent.patient)]" on_change="onchange_patient(patient)"/>
-                                                </div>
+                                            <div class="oe_title">
+                                                <label string="Vaccine" class="oe_edit_only"/>
+                                                <h1>
+                                                    <field name="name"/>
+                                                </h1>
+                                                <label for="patient" class="oe_edit_only"/>
+                                                <field name="patient" domain="[('id', '=', parent.patient)]"/>
                                             </div>
                                             <group>
                                                 <group>
@@ -764,7 +752,7 @@
                 <field name="model">oeh.medical.appointment.register.walkin</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string="Walkin Details" colors="grey:state=='Invoiced';blue:state=='Scheduled';green:state=='Completed'">
+                        <tree string="Walkin Details" decoration-muted="state=='Invoiced'" decoration-info="state=='Scheduled'" decoration-success="state=='Completed'">
                             <field name="name"/>
                             <field name="patient"/>
                             <field name="doctor"/>
@@ -788,7 +776,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new patient for walkins.
                       </p>
                     </field>
@@ -797,4 +785,4 @@
             <menuitem action="oeh_medical_register_for_walkin_action_tree" parent="oehealth.oeh_medical_appointment_menu"  id="oeh_medical_register_for_walkin_list" sequence="10"/>
 
         </data>
-</openerp>
+</odoo>

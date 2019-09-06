@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- Ophthalmology Management -->
@@ -19,8 +19,8 @@
                             <field name="doctor" string="Physician" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Doctor" context="{'group_by':'doctor'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_doctor" string="Doctor" context="{'group_by':'doctor'}"/>
                         </group>
                     </search>
                 </field>
@@ -38,13 +38,11 @@
                         <field name="state" widget="statusbar" statusbar_visible="Draft,In Progress,Completed" statusbar_colors='{"Completed":"grey","In Progress":"blue"}'/>
                     </header>
                     <sheet>
-                        <div class="oe_left" style="width: 300px;">
-                            <div class="oe_title">
-                               <label for="name" class="oe_edit_only"/>
-                                <h1>
-                                    <field name="name" required="1"/>
-                                </h1>
-                            </div>
+                        <div class="oe_title">
+                           <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
                         </div>
                         <group>
                             <group>
@@ -156,7 +154,7 @@
                 <field name="model">oeh.medical.ophthalmology</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string='Ophthalmology' colors="grey:state=='Completed';blue:state=='In Progress'">
+                        <tree string='Ophthalmology' decoration-muted="state=='Completed'" decoration-info="state=='In Progress'">
                             <field name="name"/>
                             <field name="patient"/>
                             <field name="computed_age"/>
@@ -176,7 +174,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to register a new ophthalmology visit.
                       </p>
                     </field>
@@ -185,4 +183,4 @@
             <menuitem action="oeh_medical_ophthalmology_action_tree" parent="oeh_medical_ophthalmology_menu"  id="oeh_medical_ophthalmology_list" sequence="10"/>
 
         </data>
-    </openerp>
+    </odoo>

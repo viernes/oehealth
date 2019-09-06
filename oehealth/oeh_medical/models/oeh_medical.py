@@ -42,10 +42,11 @@ from odoo.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
-# Family Management
 
+# Family Management
 class OeHealthFamily(models.Model):
     _name = 'oeh.medical.patient.family'
+    _description = 'Record Patient family information'
 
     FAMILY_RELATION = [
                 ('Father', 'Father'),
@@ -71,10 +72,12 @@ class OeHealthFamily(models.Model):
     deceased = fields.Boolean(string='Deceased?',help="Mark if the family member has died")
     patient_id = fields.Many2one('oeh.medical.patient', 'Patient', required=True, ondelete='cascade', index=True)
 
-# Patient Management
 
+# Patient Management
 class OeHealthPatient(models.Model):
-    _name='oeh.medical.patient'
+    _name = 'oeh.medical.patient'
+    _description = 'Patient Management'
+
     _inherits={
         'res.partner': 'partner_id',
     }
@@ -173,9 +176,9 @@ class OeHealthPatient(models.Model):
         def compute_age_from_dates (patient_dob,patient_deceased,patient_dod):
             now=datetime.datetime.now()
             if (patient_dob):
-                dob=datetime.datetime.strptime(patient_dob,'%Y-%m-%d')
-                if patient_deceased :
-                    dod=datetime.datetime.strptime(patient_dod,'%Y-%m-%d')
+                dob=datetime.datetime.strptime(patient_dob.strftime('%Y-%m-%d'), '%Y-%m-%d')
+                if patient_deceased:
+                    dod=datetime.datetime.strptime(patient_dod.strftime('%Y-%m-%d'), '%Y-%m-%d')
                     delta= dod - dob
                     deceased=" (deceased)"
                     years_months_days = str(delta.days // 365)+" years "+ str(delta.days%365)+" days" + deceased
@@ -230,7 +233,7 @@ class OeHealthPatient(models.Model):
         return health_patient
 
     @api.onchange('state_id')
-    def onchange_state(self):
+    def onchange_state_id(self):
         if self.state_id:
             self.country_id = self.state_id.country_id.id
 
@@ -238,8 +241,8 @@ class OeHealthPatient(models.Model):
     def print_patient_label(self):
         return self.env.ref('oehealth.action_report_patient_label').report_action(self)
 
-# Physician Management
 
+# Physician Management
 class OeHealthPhysicianSpeciality(models.Model):
     _name = "oeh.medical.speciality"
     _description = "Physician Speciality"
@@ -262,6 +265,7 @@ class OeHealthPhysicianDegree(models.Model):
 
     _sql_constraints = [
         ('full_name_uniq', 'unique (name)', 'The Medical Degree must be unique')]
+
 
 class OeHealthPhysician(models.Model):
     _name = "oeh.medical.physician"
@@ -352,6 +356,7 @@ class OeHealthPhysician(models.Model):
            vals['name_related'] = vals['name']
         return super(OeHealthPhysician, self).write(vals)
 
+
 class OeHealthPhysicianLine(models.Model):
 
     # Array containing different days name
@@ -373,8 +378,8 @@ class OeHealthPhysicianLine(models.Model):
     end_time = fields.Float(string='End Time (24h format)')
     physician_id = fields.Many2one('oeh.medical.physician', string='Physician', index=True, ondelete='cascade')
 
-# Appointment Management
 
+# Appointment Management
 class OeHealthAppointment(models.Model):
     _name = 'oeh.medical.appointment'
     _description = 'Appointment'
@@ -419,7 +424,7 @@ class OeHealthAppointment(models.Model):
             if apm.duration:
                 duration = apm.duration
             if apm.appointment_date:
-                end_date = datetime.datetime.strptime(apm.appointment_date, "%Y-%m-%d %H:%M:%S") + timedelta(hours=duration)
+                end_date = datetime.datetime.strptime(apm.appointment_date.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S") + timedelta(hours=duration)
             apm.appointment_end = end_date
         return True
 
@@ -527,8 +532,9 @@ class OeHealthAppointment(models.Model):
                     'patient': acc.patient.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice':acc.appointment_date,
+                    'date_invoice': acc.appointment_date.strftime('%Y-%m-%d'),
                     'origin': "Appointment # : " + acc.name,
+                    'sequence_number_next_prefix': False
                 }
 
                 inv_ids = invoice_obj.create(curr_invoice)
@@ -556,11 +562,16 @@ class OeHealthAppointment(models.Model):
                 'res_model': 'account.invoice',
                 'type': 'ir.actions.act_window'
         }
-        return True
 
     @api.multi
     def set_to_completed(self):
         return self.write({'state': 'Completed'})
+
+    @api.multi
+    def unlink(self):
+        for appointment in self.filtered(lambda appointment: appointment.state not in ['Scheduled']):
+            raise UserError(_('You can not delete an appointment which is not in "Scheduled" state !!'))
+        return super(OeHealthAppointment, self).unlink()
 
 
 # Prescription Management
@@ -622,8 +633,9 @@ class OeHealthPrescriptions(models.Model):
                     'patient': pres.patient.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice': pres.date,
+                    'date_invoice': pres.date.strftime('%Y-%m-%d'),
                     'origin': "Prescription# : " + pres.name,
+                    'sequence_number_next_prefix': False
                 }
 
                 inv_ids = invoice_obj.create(curr_invoice)
@@ -700,6 +712,10 @@ class OeHealthPrescriptions(models.Model):
 
         return True
 
+    @api.multi
+    def print_patient_prescription(self):
+        return self.env.ref('oehealth.action_oeh_medical_report_patient_prescriptions').report_action(self)
+
 
 class OeHealthPrescriptionLines(models.Model):
     _name = 'oeh.medical.prescription.line'
@@ -740,7 +756,7 @@ class OeHealthPrescriptionLines(models.Model):
     start_treatment = fields.Datetime(string='Start of treatment')
     end_treatment = fields.Datetime('End of treatment')
     info = fields.Text('Comment')
-    patient = fields.Many2one('oeh.medical.patient','Patient', help="Patient Name")
+    patient = fields.Many2one('oeh.medical.patient', 'Patient', help="Patient Name")
 
 
 # Vaccines Management
@@ -768,12 +784,12 @@ class OeHealthVaccines(models.Model):
     dose = fields.Integer(string='Dose #', default=lambda *a: 1)
     info = fields.Text('Observation')
 
-    @api.onchange('patient')
+    @api.onchange('patient', 'name')
     def onchange_patient(self):
         res = {}
-        if self.patient:
+        if self.patient and self.name:
             dose = 0
-            query = _("select max(dose) from oeh_medical_vaccines where patient=%s") % (str(self.patient.id))
+            query = _("select max(dose) from oeh_medical_vaccines where patient=%s and name=%s") % (str(self.patient.id), str(self.name.id))
             self.env.cr.execute(query)
             val = self.env.cr.fetchone()
             if val and val[0]:

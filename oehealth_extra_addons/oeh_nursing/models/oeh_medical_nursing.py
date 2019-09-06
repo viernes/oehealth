@@ -92,7 +92,7 @@ class OeHealthPatientRoundingManagement(models.Model):
     environmental_assessment = fields.Char('Environment', help="Environment assessment. State any disorder in the room.", size=128, readonly=True, states={'Draft': [('readonly', False)]})
     weight = fields.Integer(string='Weight', help="Measured weight, in kg", readonly=True, states={'Draft': [('readonly', False)]})
     pain = fields.Boolean(string='Pain', help="Check if the patient is in pain", readonly=True, states={'Draft': [('readonly', False)]})
-    pain_level = fields.Boolean(string='Pain Level', help="Enter the pain level, from 1 to 10", readonly=True, states={'Draft': [('readonly', False)]})
+    pain_level = fields.Integer(string='Pain Level', help="Enter the pain level, from 1 to 10", readonly=True, states={'Draft': [('readonly', False)]})
     potty = fields.Boolean(string='Potty', help="Check if the patient needs to urinate / defecate", readonly=True, states={'Draft': [('readonly', False)]})
     position = fields.Boolean(string='Position', help="Check if the patient needs to be repositioned or is unconfortable", readonly=True, states={'Draft': [('readonly', False)]})
     proximity = fields.Boolean(string='Proximity', help="Check if personal items, water, alarm, ... are not in easy reach", readonly=True, states={'Draft': [('readonly', False)]})

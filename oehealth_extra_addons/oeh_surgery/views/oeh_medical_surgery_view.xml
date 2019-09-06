@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- Surgery Management -->
@@ -20,8 +20,8 @@
                             <field name="doctor" string="Physician" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Doctor" context="{'group_by':'doctor'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_doctor" string="Doctor" context="{'group_by':'doctor'}"/>
                         </group>
                     </search>
                 </field>
@@ -34,23 +34,21 @@
                 <field name="arch" type="xml">
                 <form string="Revised Cardiac Risk Index">
                     <sheet>
-                        <div class="oe_left" style="width: 500px;">
-                            <div class="oe_title">
-                               <label for="name" class="oe_edit_only"/>
-                                <h1>
-                                    <field name="name"/>
-                                </h1>
-                                <label for="patient" class="oe_edit_only"/>
-                                <field name="patient"/>
-                                <group>
-                                    <p class="oe_grey">
-                                        Points 0: Class I Very Low (0.4% complications)<br/>
-                                        Points 1: Class II Low (0.9% complications)<br/>
-                                        Points 2: Class III Moderate (6.6% complications)<br/>
-                                        Points 3 or more : Class IV High (>11% complications)
-                                    </p>
-                                </group>
-                            </div>
+                        <div class="oe_title">
+                           <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <label for="patient" class="oe_edit_only"/>
+                            <field name="patient"/>
+                            <group>
+                                <p class="oe_grey">
+                                    Points 0: Class I Very Low (0.4% complications)<br/>
+                                    Points 1: Class II Low (0.9% complications)<br/>
+                                    Points 2: Class III Moderate (6.6% complications)<br/>
+                                    Points 3 or more : Class IV High (>11% complications)
+                                </p>
+                            </group>
                         </div>
                         <group>
                             <group>
@@ -108,7 +106,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to register a new Revised Cardiac Risk Index (RCRI).
                       </p>
                     </field>
@@ -131,10 +129,10 @@
                             <field name="anesthetist" string="Anesthetist" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Surgeon" context="{'group_by':'surgeon'}"/>
-                            <filter string="Anesthetist" context="{'group_by':'anesthetist'}"/>
-                            <filter string="States" context="{'group_by':'state'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_surgeon" string="Surgeon" context="{'group_by':'surgeon'}"/>
+                            <filter name="group_anesthetist" string="Anesthetist" context="{'group_by':'anesthetist'}"/>
+                            <filter name="group_states" string="States" context="{'group_by':'state'}"/>
                         </group>
                     </search>
                 </field>
@@ -236,7 +234,7 @@
                             <page string="Team Members">
                                 <field name="surgery_team" nolabel="1" >
                                     <tree string="Team Members" editable="bottom">
-                                        <field name="team_member" on_change="onchange_team_member(team_member)"/>
+                                        <field name="team_member"/>
                                         <field name="role"/>
                                         <field name="notes"/>
                                     </tree>
@@ -264,7 +262,7 @@
                 <field name="model">oeh.medical.surgery</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string='Sugeries' colors="grey:state=='Done';grey:state=='Signed';blue:state=='Draft';green:state=='Confirmed';green:state=='In Progress';red:state=='Cancelled'">
+                        <tree string='Sugeries' decoration-muted="state in ('Done','Signed')" decoration-info="state=='Draft'" decoration-success="state in ('Confirmed','In Progress')" decoration-danger="state=='Cancelled'">
                             <field name="name"/>
                             <field name="patient"/>
                             <field name="surgery_date"/>
@@ -286,7 +284,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new surgery.
                       </p><p>
                         oeHealth surgery screen will allow you to record complete details of all the surgeries;
@@ -312,4 +310,4 @@
             </record>
 
         </data>
-    </openerp>
+    </odoo>

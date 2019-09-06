@@ -183,8 +183,9 @@ class OeHealthPharmacyLines(models.Model):
                     'patient': pres.patient.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice': datetime.datetime.now(),
+                    'date_invoice': datetime.date.today(),
                     'origin': pres.name.name,
+                    'sequence_number_next_prefix': False
                 }
 
                 inv_ids = invoice_obj.create(curr_invoice)
@@ -206,9 +207,9 @@ class OeHealthPharmacyLines(models.Model):
                             }
 
                             inv_line_ids = invoice_line_obj.create(curr_invoice_line)
-
-                res = self.write({'state': 'Invoiced'})
-        return res
+            else:
+                raise UserError(_('No patient selected !!'))
+        return self.write({'state': 'Invoiced'})
 
     # Preventing deletion of a prescription which is not in draft state
     @api.multi
@@ -252,7 +253,7 @@ class OeHealthPharmacyMedicineLines(models.Model):
         return result
 
     # Change subtotal pricing
-    @api.onchange('actual_qty','price_unit')
+    @api.onchange('actual_qty', 'price_unit')
     def onchange_qty_and_price(self):
         result = {}
         if self.actual_qty and self.price_unit:

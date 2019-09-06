@@ -44,8 +44,8 @@ class OeHealthPatientMedicalCert(models.Model):
     def _get_duration(self):
         for obj in self:
             if obj.start_date and obj.end_date:
-                start_date = datetime.datetime.strptime(obj.start_date, '%Y-%m-%d')
-                end_date = datetime.datetime.strptime(obj.end_date, '%Y-%m-%d')
+                start_date = datetime.datetime.strptime(obj.start_date.strftime('%Y-%m-%d'), '%Y-%m-%d')
+                end_date = datetime.datetime.strptime(obj.end_date.strftime('%Y-%m-%d'), '%Y-%m-%d')
                 duration = end_date - start_date
                 obj.no_of_days = duration.days
         return True
@@ -54,7 +54,7 @@ class OeHealthPatientMedicalCert(models.Model):
     start_date = fields.Date(string='From Date', required=True)
     end_date = fields.Date(string='End Date', required=True)
     no_of_days = fields.Integer(compute=_get_duration, string="No of Days")
-    issue_date = fields.Date(string='DateTime MC is issued', required=True, default=lambda *a: datetime.datetime.now())
+    issue_date = fields.Datetime(string='DateTime MC is issued', required=True, default=lambda *a: datetime.datetime.now())
     patient = fields.Many2one('oeh.medical.patient', string='Patient', help="Patient Name", required=True)
     doctor = fields.Many2one('oeh.medical.physician', string='Physician', domain=[('is_pharmacist','=',False)], help="Health professional", required=True)
     institution = fields.Many2one('oeh.medical.health.center', string='Institution', help="Institution where doctor works")

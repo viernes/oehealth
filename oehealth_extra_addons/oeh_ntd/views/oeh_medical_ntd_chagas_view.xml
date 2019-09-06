@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- NTD Management -->
@@ -19,9 +19,9 @@
                             <field name="name" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Domiciliary Unit" context="{'group_by':'du'}"/>
-                            <filter string="Status" context="{'group_by':'du_status'}"/>
-                            <filter string="Vector" context="{'group_by':'vector'}"/>
+                            <filter name="group_domiciliary_unit" string="Domiciliary Unit" context="{'group_by':'du'}"/>
+                            <filter name="group_status" string="Status" context="{'group_by':'du_status'}"/>
+                            <filter name="group_vector" string="Vector" context="{'group_by':'vector'}"/>
                         </group>
                     </search>
                 </field>
@@ -34,13 +34,11 @@
                 <field name="arch" type="xml">
                 <form string="NTD Chagas">
                     <sheet>
-                        <div class="oe_left" style="width: 300px;">
-                            <div class="oe_title">
-                               <label string="Name" class="oe_edit_only"/>
-                                <h1>
-                                    <field name="name" required="1"/>
-                                </h1>
-                            </div>
+                        <div class="oe_title">
+                           <label for="name" string="Name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
                         </div>
                         <group>
                             <group>
@@ -96,7 +94,7 @@
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
                         <tree string='NTD Chagas Information'>
-                            <field name="name"></field>
+                            <field name="name"/>
                             <field name="du"/>
                             <field name="du_status"/>
                             <field name="survey_date"/>
@@ -115,7 +113,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new ntd chagas detail.
                       </p>
                     </field>
@@ -124,4 +122,4 @@
             <menuitem action="oeh_medical_ntd_chagas_action_tree" parent="oeh_medical_ntd_menu"  id="oeh_medical_edit_ntd_chagas" sequence="5"/>
 
         </data>
-    </openerp>
+    </odoo>

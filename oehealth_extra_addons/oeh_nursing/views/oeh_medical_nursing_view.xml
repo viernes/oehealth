@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- Nursing Management -->
@@ -20,10 +20,10 @@
                             <field name="round_summary" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Physician" context="{'group_by':'doctor'}"/>
-                            <filter string="Registration Codes" context="{'group_by':'inpatient_id'}"/>
-                            <filter string="Evolution" context="{'group_by':'evolution'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_physician" string="Physician" context="{'group_by':'doctor'}"/>
+                            <filter name="group_registration_codes" string="Registration Codes" context="{'group_by':'inpatient_id'}"/>
+                            <filter name="group_evolution" string="Evolution" context="{'group_by':'evolution'}"/>
                         </group>
                     </search>
                 </field>
@@ -43,7 +43,7 @@
                     <sheet>
                         <div class="oe_left" style="width: 300px;">
                             <div class="oe_title">
-                               <label string="Name" class="oe_edit_only"/>
+                               <label for="name" string="Name" class="oe_edit_only"/>
                                 <h1>
                                     <field name="name" required="1"/>
                                 </h1>
@@ -155,7 +155,7 @@
                 <field name="model">oeh.medical.patient.rounding</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Roundings' colors="grey:state=='Completed'">
+                    <tree string='Roundings' decoration-muted="state=='Completed'">
                         <field name="name"/>
                         <field name="patient"/>
                         <field name="doctor"/>
@@ -177,7 +177,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to record a new rounding information.
                       </p>
                     </field>
@@ -198,10 +198,10 @@
                             <field name="session_notes" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Patient" context="{'group_by':'patient'}"/>
-                            <filter string="Physician" context="{'group_by':'doctor'}"/>
-                            <filter string="Evaluations" context="{'group_by':'evaluation_id'}"/>
-                            <filter string="Evolution" context="{'group_by':'evolution'}"/>
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_physician" string="Physician" context="{'group_by':'doctor'}"/>
+                            <filter name="group_evaluation" string="Evaluations" context="{'group_by':'evaluation_id'}"/>
+                            <filter name="group_evolution" string="Evolution" context="{'group_by':'evolution'}"/>
                         </group>
                     </search>
                 </field>
@@ -218,15 +218,13 @@
                         <field name="state" widget="statusbar" statusbar_visible="Draft,Completed" statusbar_colors='{"Draft":"blue","Completed":"grey"}'/>
                     </header>
                     <sheet>
-                        <div class="oe_left" style="width: 300px;">
-                            <div class="oe_title">
-                               <label string="Name" class="oe_edit_only"/>
-                                <h1>
-                                    <field name="name" required="1"/>
-                                </h1>
-                                <label class="oe_edit_only" for="patient"/>
-                                <field name="patient"/>
-                            </div>
+                        <div class="oe_title">
+                           <label for="name" string="Name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                            <label class="oe_edit_only" for="patient"/>
+                            <field name="patient"/>
                         </div>
                         <group>
                             <group>
@@ -315,7 +313,7 @@
                 <field name="model">oeh.medical.patient.ambulatory</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Ambulatory Cares' colors="grey:state=='Completed'">
+                    <tree string='Ambulatory Cares' decoration-muted="state=='Completed'">
                         <field name="name"/>
                         <field name="patient"/>
                         <field name="doctor"/>
@@ -337,7 +335,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to record a new ambulatory care information.
                       </p>
                     </field>
@@ -347,4 +345,4 @@
 
 
         </data>
-    </openerp>
+    </odoo>

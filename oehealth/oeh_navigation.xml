@@ -6,7 +6,7 @@
 
         <!-- Health Centers -->
 
-        <menuitem name="Health Centers" id="oeh_medical_hospital_menu" parent="oeh_medical_menu" sequence="1"/>
+        <menuitem name="Health Center Management" id="oeh_medical_hospital_menu" parent="oeh_medical_menu" sequence="1"/>
 
         <!-- Patient -->
 		<menuitem name="Patient Management" id="oeh_medical_patients_menu" parent="oeh_medical_menu" sequence="2"/>

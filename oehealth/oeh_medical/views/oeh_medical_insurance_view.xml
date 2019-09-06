@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Insurance Types -->
@@ -35,7 +35,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new insurance types.
                       </p>
                     </field>
@@ -110,10 +110,10 @@
                         <field name="patient"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Patient" domain="[]" context="{'group_by':'patient'}" />
-                            <filter string="Type" domain="[]" context="{'group_by':'ins_type'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Patient" name="group_patient" domain="[]" context="{'group_by':'patient'}" />
+                            <filter string="Type" name="group_type" domain="[]" context="{'group_by':'ins_type'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -128,7 +128,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new insurance records.
                       </p>
                     </field>
@@ -138,4 +138,4 @@
 
 
         </data>
-</openerp>
+</odoo>

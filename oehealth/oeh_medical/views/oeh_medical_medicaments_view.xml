@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Medicines -->
@@ -90,7 +90,7 @@
                     <field name="search_view_id" ref="view_medical_medicines_filter"/>
                     <field name="view_id" ref="oeh_medical_medicines_tree"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new medicine product.
                       </p>
                     </field>
@@ -135,7 +135,7 @@
                     <field name="search_view_id" ref="view_medical_vaccines_filter"/>
                     <field name="view_id" ref="oeh_medical_vaccines_tree"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new vaccines product.
                       </p>
                     </field>
@@ -179,7 +179,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new dose unit.
                       </p><p>
                         With oeHealth dose unit screen, you can add various units types which will
@@ -226,7 +226,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new drug routes.
                       </p><p>
                         With oeHealth drug routes screen, you can manage routes which will
@@ -274,7 +274,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new drug form.
                       </p>
                     </field>
@@ -320,7 +320,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new medicine dosage.
                       </p>
                     </field>
@@ -330,4 +330,4 @@
 
 
     </data>
-</openerp>
+</odoo>

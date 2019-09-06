@@ -37,6 +37,7 @@ from odoo import api, fields, models, _
 # Occupation Master table
 class OeHealthOccupations(models.Model):
     _name = "oeh.medical.occupation"
+    _description = 'Occupation Master table'
 
     name = fields.Char(string='Occupation', size=128, required=True)
     code = fields.Char(string='Code', size=128)

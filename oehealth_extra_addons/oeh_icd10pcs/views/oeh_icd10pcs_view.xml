@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Procedures Codes Conf Menu -->
@@ -50,4 +50,4 @@
             <menuitem action="oeh_medical_procedures_action_tree" id="oeh_medical_procedure_conf_list" parent="oeh_medical_procedures_conf_menu" sequence="1"/>
 
         </data>
-</openerp>
+</odoo>

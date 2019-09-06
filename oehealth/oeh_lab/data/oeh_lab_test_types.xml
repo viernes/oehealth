@@ -2,12 +2,17 @@
 <openerp>
     <data noupdate="1">
 
+        <record model="oeh.medical.labtest.department" id="lab_test_defaultdepartment0">
+            <field name="name">Default</field>
+        </record>
+
         <!-- SEMEN ANALYSIS -->
 
         <record model="oeh.medical.labtest.types" id="lab_test_semenanalysis0">
             <field name="name">Semen Analysis</field>
             <field name="code">SA</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_semenanalysis0">
@@ -112,6 +117,7 @@
             <field name="name">Complete Blood Count</field>
             <field name="code">CBC</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_completebloodcount0">
@@ -247,6 +253,7 @@
             <field name="name">Liver Function Test</field>
             <field name="code">LFT</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_liverfunctiontest0">
@@ -332,6 +339,7 @@
             <field name="name">Stool Examination</field>
             <field name="code">SE</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_stoolexamination0">
@@ -401,6 +409,7 @@
             <field name="name">Renal Function Test</field>
             <field name="code">RFT</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_renalfunctiontest0">
@@ -431,6 +440,7 @@
             <field name="name">Haematology</field>
             <field name="code">HTG</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_haematology0">
@@ -445,6 +455,7 @@
             <field name="name">Peripheral Smear Examination</field>
             <field name="code">PSE</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_peripheralsmearexamination0">
@@ -475,6 +486,7 @@
             <field name="name">Urine Analysis</field>
             <field name="code">UA</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_urineanalysis0">
@@ -609,6 +621,7 @@
             <field name="name">Endocrinology</field>
             <field name="code">EGY</field>
             <field name="test_charge">1</field>
+            <field name="lab_department" ref="lab_test_defaultdepartment0"/>
         </record>
 
         <record model="oeh.medical.labtest.criteria" id="lab_test_criteria_endocrinology0">

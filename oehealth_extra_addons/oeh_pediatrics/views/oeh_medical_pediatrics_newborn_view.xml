@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-    <openerp>
+    <odoo>
         <data>
 
             <!-- Pediatrics Management -->
@@ -20,10 +20,10 @@
                             <field name="institution" string="Health Center" select="1"/>
                         <newline/>
                         <group expand="0" string="Group By..." colspan="11" col="11">
-                            <filter string="Mother" context="{'group_by':'mother'}"/>
-                            <filter string="Doctor" context="{'group_by':'doctor'}"/>
-                            <filter string="Health Center" context="{'group_by':'institution'}"/>
-                            <filter string="Status" context="{'group_by':'state'}"/>
+                            <filter name="group_mother" string="Mother" context="{'group_by':'mother'}"/>
+                            <filter name="group_doctor" string="Doctor" context="{'group_by':'doctor'}"/>
+                            <filter name="group_health_center" string="Health Center" context="{'group_by':'institution'}"/>
+                            <filter name="group_status" string="Status" context="{'group_by':'state'}"/>
                         </group>
                     </search>
                 </field>
@@ -41,10 +41,10 @@
                         <field name="state" widget="statusbar" statusbar_visible="Draft,Signed" statusbar_colors='{"Signed":"grey"}'/>
                     </header>
                     <sheet>
-                        <div class="oe_left" style="width: 300px;">
+                        <div>
                             <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                             <div class="oe_title">
-                               <label string="Baby Name" class="oe_edit_only"/>
+                               <label for="name" string="Baby Name" class="oe_edit_only"/>
                                 <h1>
                                     <field name="name" required="1"/>
                                 </h1>
@@ -194,12 +194,18 @@
                 <field name="name">Newborn Kanban</field>
                 <field name="model">oeh.medical.pediatrics.newborn</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
+                        <field name="id"/>
+                        <field name="name"/>
+                        <field name="newborn_code"/>
+                        <field name="mother"/>
+                        <field name="birth_date"/>
+                        <field name="sex"/>
                         <templates>
                             <t t-name="kanban-box">
                                 <div class="oeh_medical_vignette">
                                     <div class="oeh_medical_image">
-                                        <a type="open"><img t-att-src="kanban_image('oeh.medical.pediatrics.newborn', 'image_medium', record.id.value)" class="oeh_medical_picture"/></a>
+                                        <a type="open"><img alt="" t-att-src="kanban_image('oeh.medical.pediatrics.newborn', 'image_medium', record.id.raw_value)" class="oeh_medical_picture"/></a>
                                     </div>
                                     <div class="oeh_medical_details">
                                         <h4>
@@ -216,7 +222,6 @@
                             </t>
                         </templates>
                     </kanban>
-
                 </field>
             </record>
 
@@ -225,7 +230,7 @@
                 <field name="model">oeh.medical.pediatrics.newborn</field>
                 <field name="type">tree</field>
                     <field name="arch" type="xml">
-                        <tree string='Newborn Information' colors="grey:state=='Signed'">
+                        <tree string='Newborn Information' decoration-muted="state=='Signed'">
                             <field name="newborn_code"/>
                             <field name="name"/>
                             <field name="sex"/>
@@ -248,7 +253,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to register a new newborn baby.
                       </p>
                     </field>
@@ -257,4 +262,4 @@
             <menuitem action="oeh_medical_newborn_action_tree" parent="oeh_medical_pediatrics_menu"  id="oeh_medical_newborn_list" sequence="5"/>
 
         </data>
-    </openerp>
+    </odoo>

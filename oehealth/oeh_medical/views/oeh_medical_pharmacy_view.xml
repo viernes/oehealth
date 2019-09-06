@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Pharmacy -->
@@ -7,18 +7,17 @@
             <record model="ir.ui.view" id="oeh_medical_healthcenters_pharmacy_view">
                 <field name="name">Pharmacy</field>
                 <field name="model">oeh.medical.health.center.pharmacy</field>
-                <field name="type">form</field>
                 <field name="arch" type="xml">
                     <form string="Pharmacies">
                         <sheet>
                             <div class="oe_left" style="width: 500px;">
-                                <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                                <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium"}'/>
                                 <div class="oe_title">
-                                    <label string="Pharmacy Name" class="oe_edit_only"/>
+                                    <label for="name" string="Pharmacy Name" class="oe_edit_only"/>
                                     <h1>
                                         <field name="name" required="1"/>
                                     </h1>
-                                    <field name="pharmacist_name" placeholder="Pharmacist Name" context="{'default_is_pharmacist':True}" options="{'no_create': True}"/>
+                                    <field name="pharmacist_name" placeholder="Pharmacist Name" context="{'default_is_pharmacist':True}"/>
                                     <field name="institution" placeholder="Health Centers" options="{'no_create': True}"/>
                                 </div>
                             </div>
@@ -30,7 +29,7 @@
                                         <field name="street2"/>
                                         <div class="address_format">
                                             <field name="city" placeholder="City" style="width: 40%%"/>
-                                            <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
+                                            <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}'/>
                                             <field name="zip" placeholder="ZIP" style="width: 20%%"/>
                                         </div>
                                         <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
@@ -40,7 +39,6 @@
                                 <group>
                                     <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
                                     <field name="mobile"/>
-                                    <!--<field name="fax"/>-->
                                     <field name="email" widget="email"/>
                                 </group>
                             </group>
@@ -55,7 +53,7 @@
                                             <sheet>
                                                 <group>
                                                     <group>
-                                                        <field name="name" on_change="onchange_prescription_id(name)" options="{'no_create': True}"/>
+                                                        <field name="name" options="{'no_create': True}"/>
                                                         <field name="doctor" options="{'no_create': True}"/>
                                                     </group>
                                                     <group>
@@ -67,11 +65,11 @@
                                                     <page string="Prescription Lines">
                                                         <field name="prescription_lines" nolabel="1">
                                                             <tree string="Prescription Lines" nolabel="1" editable="bottom">
-                                                                <field name="name" on_change="onchange_medicine_id(name)"/>
+                                                                <field name="name"/>
                                                                 <field name="indication"/>
                                                                 <field name="qty" readonly="1"/>
-                                                                <field name="actual_qty" on_change="onchange_qty_and_price(actual_qty,price_unit)"/>
-                                                                <field name="price_unit" on_change="onchange_qty_and_price(actual_qty,price_unit)"/>
+                                                                <field name="actual_qty"/>
+                                                                <field name="price_unit"/>
                                                                 <field name="price_subtotal"/>
                                                             </tree>
                                                         </field>
@@ -79,7 +77,7 @@
                                                 </notebook>
                                             </sheet>
                                         </form>
-                                        <tree string="Prescriptions" nolabel="1" colors="grey:state=='Invoiced';blue:state=='Draft'">
+                                        <tree string="Prescriptions" nolabel="1" decoration-muted="state=='Invoiced'" decoration-info="state=='Draft'">
                                             <field name="name"/>
                                             <field name="patient"/>
                                             <field name="doctor"/>
@@ -126,9 +124,9 @@
                         <field name="institution"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Pharmacies" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Pharmacist Name" domain="[]" context="{'group_by':'pharmacist_name'}" />
-                            <filter string="Health Centers" domain="[]" context="{'group_by':'institution'}" />
+                            <filter string="Pharmacies" name="group_pharmacies" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Pharmacist Name" name="group_pharmacist_name" domain="[]" context="{'group_by':'pharmacist_name'}" />
+                            <filter string="Health Centers" name="group_health_centers" domain="[]" context="{'group_by':'institution'}" />
                         </group>
 				    </search>
                 </field>
@@ -138,7 +136,7 @@
                 <field name="name">Pharmacies</field>
                 <field name="model">oeh.medical.health.center.pharmacy</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
                         <field name="id"/>
                         <field name="name"/>
                         <field name="pharmacist_name"/>
@@ -151,7 +149,7 @@
                                 <div class="oeh_medical_vignette oe_semantic_html_override">
                                     <div class="oeh_medical_image">
                                         <a type="open">
-                                            <img t-att-src="kanban_image('oeh.medical.health.center.pharmacy', 'image_small', record.id.raw_value)" class="oeh_medical_picture"/>
+                                            <img alt="" t-att-src="kanban_image('oeh.medical.health.center.pharmacy', 'image_small', record.id.raw_value)" class="oeh_medical_picture"/>
                                         </a>
                                     </div>
                                     <div class="oeh_medical_details">
@@ -181,10 +179,10 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
-                        Click to add a new pharmacies.
+                      <p class="o_view_nocontent_smiling_face">
+                        Click to add a new pharmacy.
                       </p><p>
-                        With oeHealth pharmacies screen, you can configure pharmacy screen and manage all the medicines
+                        With oeHealth pharmacy screen, you can manage all assigned prescriptions and dispatch the medicines to patient
                       </p>
                     </field>
             </record>
@@ -192,4 +190,4 @@
             <menuitem action="oeh_medical_healthcenters_pharmacy_action_tree" id="oeh_medical_healthcenters_pharmacy_list" parent="oeh_medical_hospital_menu" sequence="10"/>
 
     </data>
-</openerp>
+</odoo>

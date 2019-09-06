@@ -50,6 +50,7 @@ class OeHealthCenters(models.Model):
 
     HEALTH_CENTERS = [
         ('Hospital', 'Hospital'),
+        ('Multi-speciality Hospital', 'Multi-speciality Hospital'),
         ('Nursing Home', 'Nursing Home'),
         ('Clinic', 'Clinic'),
         ('Community Health Center', 'Community Health Center'),

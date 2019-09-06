@@ -38,7 +38,9 @@
     'author': "Braincrew Apps",
     'category': 'Generic Modules/Medical',
     'summary': 'Pediatrics, Patient Call Logs, Medical History, Nursing, Surgical, Ophthalmology, Imaging, Neglected Tropical Diseases, Walkins, Medical Certificate and Procedure Coding System Management',
-    'depends': ['oehealth','product'],
+    'depends': ['oehealth', 'product'],
+    'price': 150.00,
+    'currency': 'EUR',
     'description': """
 
 About oeHealth Extra Addons
@@ -115,7 +117,7 @@ About oeHealth Extra Addons
         'oeh_pediatrics/data/oeh_medical_bmi_girls_p.xml',
         'oeh_pediatrics/data/oeh_medical_bmi_girls_z.xml',
 
-        "oeh_icd10pcs/views/oeh_icd10pcs_view.xml",
+        'oeh_icd10pcs/views/oeh_icd10pcs_view.xml',
 
         'oeh_surgery/views/oeh_medical_healthcenters_view.xml',
         'oeh_surgery/views/oeh_medical_surgery_view.xml',
@@ -124,22 +126,22 @@ About oeHealth Extra Addons
         'oeh_ophthalmology/views/oeh_medical_ophthalmology_report.xml',
         'oeh_ophthalmology/views/oeh_medical_report.xml',
 
-        "oeh_nursing/views/oeh_medical_nursing_view.xml",
-        "oeh_nursing/views/oeh_medical_rounding_report.xml",
-        "oeh_nursing/views/oeh_medical_report.xml",
+        'oeh_nursing/views/oeh_medical_nursing_view.xml',
+        'oeh_nursing/views/oeh_medical_rounding_report.xml',
+        'oeh_nursing/views/oeh_medical_report.xml',
 
-        "oeh_imaging/views/oeh_medical_imaging_view.xml",
-        "oeh_imaging/views/report_patient_imaging.xml",
-        "oeh_imaging/views/oeh_medical_imaging_report.xml",
-        "oeh_imaging/data/oeh_imaging_test_types.xml",
+        'oeh_imaging/views/oeh_medical_imaging_view.xml',
+        'oeh_imaging/views/report_patient_imaging.xml',
+        'oeh_imaging/views/oeh_medical_imaging_report.xml',
+        'oeh_imaging/data/oeh_imaging_test_types.xml',
 
-        "oeh_ntd/views/oeh_medical_domiciliary_unit_view.xml",
-        "oeh_ntd/views/oeh_medical_ntd_chagas_view.xml",
-        "oeh_ntd/views/oeh_medical_ntd_dengue_view.xml",
-        "oeh_ntd/data/oeh_lab_test_types.xml",
+        'oeh_ntd/views/oeh_medical_domiciliary_unit_view.xml',
+        'oeh_ntd/views/oeh_medical_ntd_chagas_view.xml',
+        'oeh_ntd/views/oeh_medical_ntd_dengue_view.xml',
+        'oeh_ntd/data/oeh_lab_test_types.xml',
 
-        "oeh_evaluation_history/views/oeh_medical_evaluation_report.xml",
-        "oeh_evaluation_history/views/oeh_medical_report.xml",
+        'oeh_evaluation_history/views/oeh_medical_evaluation_report.xml',
+        'oeh_evaluation_history/views/oeh_medical_report.xml',
 
         'oeh_medical_certificate/views/oeh_medical_certificate_view.xml',
         'oeh_medical_certificate/views/report_medical_certificate.xml',
@@ -155,24 +157,15 @@ About oeHealth Extra Addons
         'security/ir.model.access.csv',
         'security/ir.rule.xml',
 
-    	'oeh_icd10pcs/data/oeh_icd_10_pcs_2009_part1.xml',
+        'oeh_icd10pcs/data/oeh_icd_10_pcs_2009_part1.xml',
         'oeh_icd10pcs/data/oeh_icd_10_pcs_2009_part2.xml',
         'oeh_icd10pcs/data/oeh_icd_10_pcs_2009_part3.xml',
     ],
     "images": ['images/main_screenshot.png'],
-    "demo": [
-
-    ],
-    'test':[
-    ],
-    'css': [
-
-    ],
-    'js': [
-
-    ],
-    'qweb': [
-
-    ],
+    "demo": [],
+    'test': [],
+    'css': [],
+    'js': [],
+    'qweb': [],
     "active": False
 }

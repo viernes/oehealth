@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Inpatient Hospitalization -->
@@ -72,7 +72,7 @@
                 <field name="model">oeh.medical.inpatient</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Inpatient Admission' colors="grey:state=='Invoiced';blue:state=='Hospitalized';green:state=='Discharged';red:state=='Cancelled'">
+                    <tree string='Inpatient Admission' decoration-muted="state=='Invoiced'" decoration-info="state=='Hospitalized'" decoration-success="state=='Discharged'" decoration-danger="state=='Cancelled'">
                         <field name="name"/>
                         <field name="patient"/>
                         <field name="admission_type"/>
@@ -98,9 +98,9 @@
                         <field name="bed"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Admission Type" domain="[]" context="{'group_by':'admission_type'}" />
-                            <filter string="Ward" domain="[]" context="{'group_by':'ward'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter string="Admission Type" name="group_admission_type" domain="[]" context="{'group_by':'admission_type'}" />
+                            <filter string="Ward" name="group_ward" domain="[]" context="{'group_by':'ward'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -115,7 +115,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to admit new patient.
                       </p>
                     </field>
@@ -189,7 +189,7 @@
                 <field name="model">oeh.medical.inpatient.mydetails</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='My Admission' colors="grey:state=='Invoiced';blue:state=='Hospitalized';green:state=='Discharged';red:state=='Cancelled'">
+                    <tree string='My Admission' decoration-muted="state=='Invoiced'" decoration-info="state=='Hospitalized'" decoration-success="state=='Discharged'" decoration-danger="state=='Cancelled'">
                         <field name="name"/>
                         <field name="patient"/>
                         <field name="admission_type"/>
@@ -215,9 +215,9 @@
                         <field name="bed"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Admission Type" domain="[]" context="{'group_by':'admission_type'}" />
-                            <filter string="Ward" domain="[]" context="{'group_by':'ward'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter string="Admission Type" name="group_admission_type" domain="[]" context="{'group_by':'admission_type'}" />
+                            <filter string="Ward" name="group_ward" domain="[]" context="{'group_by':'ward'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -237,4 +237,4 @@
 
 
         </data>
-</openerp>
+</odoo>

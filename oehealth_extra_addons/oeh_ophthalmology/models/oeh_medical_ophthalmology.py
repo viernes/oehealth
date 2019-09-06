@@ -94,8 +94,8 @@ class OeHealthOphthalmology(models.Model):
     def _patient_age_at_evaluation(self):
         def compute_age_from_dates (patient_dob,patient_visit_date):
             if (patient_dob):
-                dob = datetime.datetime.strptime(patient_dob,'%Y-%m-%d').date()
-                visit_date = datetime.datetime.strptime(patient_visit_date,'%Y-%m-%d %H:%M:%S').date()
+                dob = datetime.datetime.strptime(patient_dob.strftime('%Y-%m-%d'),'%Y-%m-%d').date()
+                visit_date = datetime.datetime.strptime(patient_visit_date.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
                 delta= visit_date - dob
                 years_months_days = str(delta.days // 365)+" years "+ str(delta.days%365)+" days"
             else:

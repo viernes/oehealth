@@ -192,9 +192,11 @@ class OeHealthSurgery(models.Model):
     def _surgery_duration(self):
         for su in self:
             if su.surgery_end_date and su.surgery_date:
-                surgery_date = 1.0*calendar.timegm(time.strptime(su.surgery_date, "%Y-%m-%d %H:%M:%S"))
-                surgery_end_date = 1.0*calendar.timegm(time.strptime(su.surgery_end_date, "%Y-%m-%d %H:%M:%S"))
-                duration = (surgery_end_date - surgery_date)/3600
+                surgery_date = 1.0 * calendar.timegm(
+                    time.strptime(su.surgery_date.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S"))
+                surgery_end_date = 1.0 * calendar.timegm(
+                    time.strptime(su.surgery_end_date.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S"))
+                duration = (surgery_end_date - surgery_date) / 3600
                 su.surgery_length = duration
         return True
 
@@ -202,8 +204,8 @@ class OeHealthSurgery(models.Model):
     def _patient_age_at_surgery(self):
         def compute_age_from_dates(patient_dob,patient_surgery_date):
             if (patient_dob):
-                dob = datetime.datetime.strptime(patient_dob,'%Y-%m-%d').date()
-                surgery_date = datetime.datetime.strptime(patient_surgery_date,'%Y-%m-%d %H:%M:%S').date()
+                dob = datetime.datetime.strptime(patient_dob.strftime('%Y-%m-%d'),'%Y-%m-%d').date()
+                surgery_date = datetime.datetime.strptime(patient_surgery_date.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
                 delta= surgery_date - dob
                 years_months_days = str(delta.days // 365)+" years "+ str(delta.days%365)+" days"
             else:

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
         <data>
 
             <!-- Beds -->
@@ -33,7 +33,7 @@
                                 </group>
                             </group>
                             <group string="Bed Status">
-                                <field name="change_bed_status" on_change="onchange_bed_status(change_bed_status, state)"/>
+                                <field name="change_bed_status"/>
                             </group>
                             <group string="Extra Information">
                                 <field name="info" nolabel="1"/>
@@ -48,7 +48,7 @@
                 <field name="model">oeh.medical.health.center.beds</field>
                 <field name="type">tree</field>
                 <field name="arch" type="xml">
-                    <tree string='Beds' colors="grey:state=='Occupied';blue:state=='Reserved';green:state=='Free';red:state=='Not Available'">
+                    <tree string='Beds' decoration-muted="state=='Occupied'" decoration-info="state=='Reserved'" decoration-success="state=='Free'" decoration-danger="state=='Not Available'">
                         <field name="name"/>
                         <field name="ward"/>
                         <field name="institution"/>
@@ -60,26 +60,25 @@
                 </field>
             </record>
 
-             <record id="view_medical_healthcenters_bed_filter" model="ir.ui.view">
+            <record id="view_medical_healthcenters_bed_filter" model="ir.ui.view">
                 <field name="name">Bed Search</field>
                 <field name="model">oeh.medical.health.center.beds</field>
-                <field name="priority" eval="8" />
-			    <field name="arch" type="xml">
+                <field name="arch" type="xml">
                     <search string="Beds">
                         <field name="name"/>
                         <field name="ward"/>
                         <field name="bed_type"/>
                         <field name="telephone_number"/>
-                        <newline />
+                        <separator/>
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Ward" domain="[]" context="{'group_by':'ward'}" />
-                            <filter string="Health Centers" domain="[]" context="{'group_by':'institution'}" />
-                            <filter string="Building" domain="[]" context="{'group_by':'building'}" />
-                            <filter string="Bed Type" domain="[]" context="{'group_by':'bed_type'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Ward" name="group_ward" domain="[]" context="{'group_by':'ward'}" />
+                            <filter string="Health Centers" name="group_health_centers" domain="[]" context="{'group_by':'institution'}" />
+                            <filter string="Building" name="group_building" domain="[]" context="{'group_by':'building'}" />
+                            <filter string="Bed Type" name="group_bed_type" domain="[]" context="{'group_by':'bed_type'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
-				    </search>
+                    </search>
                 </field>
             </record>
 
@@ -92,7 +91,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new health center beds.
                       </p><p>
                         With oeHealth bed screen, you can configure your beds and assign to any patients
@@ -187,12 +186,12 @@
                         <field name="gender"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Health Centers" domain="[]" context="{'group_by':'institution'}" />
-                            <filter string="Building" domain="[]" context="{'group_by':'building'}" />
-                            <filter string="Floor" domain="[]" context="{'group_by':'floor'}" />
-                            <filter string="Gender" domain="[]" context="{'group_by':'gender'}" />
-                            <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Health Centers" name="group_health_center" domain="[]" context="{'group_by':'institution'}" />
+                            <filter string="Building" name="group_building" domain="[]" context="{'group_by':'building'}" />
+                            <filter string="Floor" name="group_floor" domain="[]" context="{'group_by':'floor'}" />
+                            <filter string="Gender" name="group_gender" domain="[]" context="{'group_by':'gender'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
                         </group>
 				    </search>
                 </field>
@@ -207,7 +206,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new health center ward.
                       </p><p>
                         With oeHealth ward screen, you can configure your wards with all other details
@@ -280,8 +279,8 @@
                         <field name="institution"/>
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Health Centers" domain="[]" context="{'group_by':'institution'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Health Centers" name="group_health_center" domain="[]" context="{'group_by':'institution'}" />
                         </group>
 				    </search>
                 </field>
@@ -296,7 +295,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new health center building.
                       </p><p>
                         With oeHealth building screen, you can configure your buildings, wards and beds
@@ -320,36 +319,31 @@
                                     <field string="Buildings" name="building_count" widget="statinfo"/>
                                 </button>
                             </div>
-                            <div class="oe_left" style="width: 500px;">
-                                <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
-                                <div class="oe_title">
-                                    <label string="Health Centers Name" class="oe_edit_only"/>
-                                    <h1>
-                                        <field name="name" required="1"/>
-                                    </h1>
-                                    <label for="health_center_type" class="oe_edit_only"/>
-                                    <field name="health_center_type" required="1"/>
-                                </div>
+                            <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium"}'/>
+                            <div class="oe_title">
+                                <label for="name" string="Health Centers Name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" required="1"/>
+                                </h1>
+                                <label for="health_center_type" class="oe_edit_only"/>
+                                <field name="health_center_type" required="1"/>
                             </div>
                             <group>
                                 <group>
                                     <label for="street" string="Address"/>
-                                    <div>
-                                        <field name="street" placeholder="Street..."/>
-                                        <field name="street2"/>
-                                        <div class="address_format">
-                                            <field name="city" placeholder="City" style="width: 40%%"/>
-                                            <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
-                                            <field name="zip" placeholder="ZIP" style="width: 20%%"/>
-                                        </div>
-                                        <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+                                    <div class="o_address_format">
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                                     </div>
                                     <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
                                 </group>
                                 <group>
                                     <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
                                     <field name="mobile"/>
-                                    <!--<field name="fax"/>-->
                                     <field name="email" widget="email"/>
                                 </group>
                             </group>
@@ -390,8 +384,8 @@
                         <field name="health_center_type" />
                         <newline />
                         <group expand="0" string="Group By...">
-                            <filter string="Name" domain="[]" context="{'group_by':'name'}" />
-                            <filter string="Type" domain="[]" context="{'group_by':'health_center_type'}" />
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Type" name="group_type" domain="[]" context="{'group_by':'health_center_type'}" />
                         </group>
 				    </search>
                 </field>
@@ -401,7 +395,7 @@
                 <field name="name">Health Centers</field>
                 <field name="model">oeh.medical.health.center</field>
                 <field name="arch" type="xml">
-                    <kanban>
+                    <kanban class="o_kanban_mobile">
                         <field name="id"/>
                         <field name="name"/>
                         <field name="health_center_type"/>
@@ -413,7 +407,7 @@
                                 <div class="oeh_medical_vignette oe_semantic_html_override">
                                     <div class="oeh_medical_image">
                                         <a type="open">
-                                            <img t-att-src="kanban_image('oeh.medical.health.center', 'image_small', record.id.raw_value)" class="oeh_medical_picture"/>
+                                            <img alt="" t-att-src="kanban_image('oeh.medical.health.center', 'image_small', record.id.raw_value)" class="oeh_medical_picture"/>
                                         </a>
                                     </div>
                                     <div class="oeh_medical_details">
@@ -430,7 +424,6 @@
                             </t>
                         </templates>
                     </kanban>
-
                 </field>
             </record>
 
@@ -443,7 +436,7 @@
                     <field name="context">{}</field>
                     <field name="view_id" eval="False"/>
                     <field name="help" type="html">
-                      <p class="oe_view_nocontent_create">
+                      <p class="o_view_nocontent_smiling_face">
                         Click to add a new health centers.
                       </p><p>
                         With oeHealth health center screen, you can configure your health centers
@@ -455,4 +448,4 @@
 
 
     </data>
-</openerp>
+</odoo>

@@ -135,7 +135,7 @@ class OeHealthImagingTypeManagement(models.Model):
                     'patient': imaging.patient.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice': datetime.datetime.now(),
+                    'date_invoice': datetime.date.today(),
                     'origin': "Imaging Test# : " + imaging.name,
                     'target': 'new',
                 }

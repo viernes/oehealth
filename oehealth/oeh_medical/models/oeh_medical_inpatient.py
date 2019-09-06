@@ -144,9 +144,9 @@ class OeHealthInpatient(models.Model):
             duration = 1
 
             if inpatient.admission_date and inpatient.discharge_date:
-                admission_date = datetime.datetime.strptime(inpatient.admission_date, "%Y-%m-%d %H:%M:%S")
-                discharge_date = datetime.datetime.strptime(inpatient.discharge_date, "%Y-%m-%d %H:%M:%S")
-                delta = date(discharge_date.year,discharge_date.month,discharge_date.day) - date(admission_date.year,admission_date.month,admission_date.day)
+                admission_date = datetime.datetime.strptime(inpatient.admission_date.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+                discharge_date = datetime.datetime.strptime(inpatient.discharge_date.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+                delta = date(discharge_date.year, discharge_date.month, discharge_date.day) - date(admission_date.year, admission_date.month, admission_date.day)
                 if delta.days == 0:
                     duration = 1
                 else:
@@ -160,9 +160,9 @@ class OeHealthInpatient(models.Model):
                     'patient': inpatient.patient.id,
                     'state': 'draft',
                     'type':'out_invoice',
-                    'date_invoice': datetime.datetime.now(),
+                    'date_invoice': datetime.date.today(),
                     'origin': "Inpatient# : " + inpatient.name,
-                    'target': 'new',
+                    'sequence_number_next_prefix': False
                 }
 
                 inv_ids = invoice_obj.create(curr_invoice)
@@ -197,6 +197,12 @@ class OeHealthInpatient(models.Model):
     @api.multi
     def set_to_draft(self):
         return self.write({'state': 'Draft'})
+
+    @api.multi
+    def unlink(self):
+        for inpatient in self.filtered(lambda inpatient: inpatient.state not in ['Draft']):
+            raise UserError(_('You can not delete an admission record which is not in "Draft" state !!'))
+        return super(OeHealthInpatient, self).unlink()
 
 class OeHealthInpatientProfile(models.Model):
     _name = "oeh.medical.inpatient.mydetails"
